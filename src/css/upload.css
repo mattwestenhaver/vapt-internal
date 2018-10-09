@@ -1,0 +1,14 @@
+.upload-comp div {
+  margin: 40px auto;
+}
+
+.dropzone {
+  position: relative;
+  width: 30%;
+  min-height: 200px;
+  max-height: fit-content;
+  border-width: 2px;
+  border-color: rgb(102, 102, 102);
+  border-style: dashed;
+  border-radius: 5px;
+}
