@@ -10,6 +10,10 @@ export default function reducer(state={
     return {
       ...state, history: [...state.history, action.payload] 
     }
+  } else if (action.type === "CLEAR_HISTORY") {
+    return {
+      ...state, history: ['/']
+    }
   } else {
     return state
   }

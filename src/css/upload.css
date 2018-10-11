@@ -1,5 +1,18 @@
 .upload-comp div {
-  margin: 40px auto;
+  margin: 10px auto 30px auto;
+}
+
+.folder-upload-comp div {
+  margin: 10px auto 30px auto;
+}
+
+.folder-upload-comp {
+  margin: 0 auto;
+  width: 50%;
+  border: 1px solid black;
+  padding-top: 10px;
+  padding-bottom: 20px;
+  border-radius: 6px;
 }
 
 .dropzone {
@@ -11,4 +24,38 @@
   border-color: rgb(102, 102, 102);
   border-style: dashed;
   border-radius: 5px;
+}
+
+.dropzone-2 {
+  position: relative;
+  width: 70%;
+  min-height: 120px;
+  max-height: fit-content;
+  border-width: 2px;
+  border-color: rgb(102, 102, 102);
+  border-style: dashed;
+  border-radius: 5px;
+}
+
+.upload-comp .field {
+  height: 40px;
+}
+
+.upload-comp label { 
+  font-size: 1.2em;
+  padding-right: 3px;
+}
+
+.customModal {
+  height: fit-content;
+  margin: 7% auto 0 auto!important;
+}
+
+.customModal .field {
+  width: fit-content;
+  margin: 10px auto 30px auto;
+}
+
+.customModal .ui.button {
+  margin: 0 auto!important;
 }

@@ -10,3 +10,9 @@ export function goForwards(page) {
     payload: page
   }
 }
+
+export function clearHistory() {
+  return {
+    type: "CLEAR_HISTORY"
+  }
+}

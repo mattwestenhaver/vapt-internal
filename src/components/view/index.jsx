@@ -33,7 +33,6 @@ class View extends React.Component {
   render() {
     return (
       <div>
-        <h1>View Files</h1>
         {this.state.loading
           ? <Dimmer active inverted>
               <Loader inverted>Loading AWS...</Loader>

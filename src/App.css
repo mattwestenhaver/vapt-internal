@@ -1,4 +1,7 @@
 @import url('./css/upload.css');
+@import url('./css/view.css');
+@import url('./css/users.css');
+@import url('./css/projects.css');
 
 .App {
   text-align: center;

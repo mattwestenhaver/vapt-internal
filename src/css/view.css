@@ -1,0 +1,27 @@
+.folder-icon, .file-icon {
+  width: 20px;
+  margin-right: 10px;
+}
+
+.open-folder {
+  width: 40px;
+  margin-right: 10px;
+}
+
+.open-folder-label {
+  font-size: 1.3em;
+}
+
+.aws-file-wrap {
+  width: 50%;
+  border: 1px solid black;
+  border-radius: 6px;
+  margin: 20px auto;
+  padding: 20px;
+  text-align: left;
+}
+
+.ui.error.message {
+  width: 500px;
+  margin: 100px auto 0 auto;
+}

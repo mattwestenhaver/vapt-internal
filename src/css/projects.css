@@ -1,0 +1,7 @@
+.each-project {
+  width: 80%;
+  margin: 20px auto;
+  border: 1px solid lightgray;
+  border-radius: 6px;
+  padding: 20px;
+}

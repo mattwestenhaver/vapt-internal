@@ -1,6 +1,7 @@
 import React from 'react'
 import Dropzone from 'react-dropzone'
 import { Button, Form } from 'semantic-ui-react'
+import { connect } from 'react-redux'
 import S3Client from 'aws-s3';
 
 var config = {
@@ -11,7 +12,7 @@ var config = {
   secretAccessKey: process.env.REACT_APP_VAR_SECRET_KEY
 }
 
-class Upload extends React.Component {
+class FolderUpload extends React.Component {
 
   constructor(props) {
     super(props)
@@ -33,13 +34,11 @@ class Upload extends React.Component {
   }
 
   upload() {
-    if(this.state.folderName === '') {
-      console.log('please select a folder name for your project')
-    } else if (this.state.files.length === 0) {
+    if(this.state.files.length === 0) {
       console.log('please choose the files you want to upload') 
     } else {
       this.setState({ loading: true })
-      config.dirName = this.state.folderName
+      config.dirName = this.props.history[this.props.history.length-1] + this.state.folderName
       this.state.files.forEach(f => {
         S3Client.uploadFile(f, config)
           .then((data) => {
@@ -62,12 +61,10 @@ class Upload extends React.Component {
 
     return (
       <div className='upload-comp'>
-        <h1>Upload Files</h1>
+        {/* <h1>Upload New Files</h1> */}
         <div>
-          <Form.Field>
-            <Form.Input type="text" name="folderName" value={folderName} placeholder="Folder Name" onChange={this.handleChange}/>
-          </Form.Field>
-          <Dropzone className='dropzone' onDrop={this.onDrop.bind(this)}>
+          <Form.Input type="text" name="folderName" value={folderName} label={this.props.history[this.props.history.length - 1]} placeholder='Folder Name' onChange={this.handleChange}/>
+          <Dropzone className='dropzone-2' onDrop={this.onDrop.bind(this)}>
             {this.state.files.length > 0
               ? this.state.files.map(f => {
                   return (
@@ -78,15 +75,20 @@ class Upload extends React.Component {
             }
           </Dropzone>
           {this.state.loading
-            ? <Button loading>Loading</Button>
-            : <Button onClick={this.upload.bind(this)}>Upload Files</Button>
+            ? <Form.Field>
+                <Button loading>Loading</Button>
+              </Form.Field>
+            : <Form.Field>
+                <Button onClick={this.upload.bind(this)}>Upload Files</Button>
+              </Form.Field>
           }
         </div>
       </div>
     )
 
   }
-
 }
 
-export default Upload
+export default connect(store => {
+  return { history: store.history.history }
+})(FolderUpload)
