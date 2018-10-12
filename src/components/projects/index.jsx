@@ -2,8 +2,24 @@ import React from 'react'
 import auth from '../../auth.js'
 import { connect } from 'react-redux'
 import { getProjects } from '../../redux/actions/projectActions.jsx'
+import { Accordion, Icon } from 'semantic-ui-react'
 
 class Projects extends React.Component {
+
+  constructor(props) {
+    super(props)
+    this.state = { 
+      activeIndex: 0 
+    }
+  }
+
+  handleClick = (e, titleProps) => {
+    const { index } = titleProps
+    const { activeIndex } = this.state
+    const newIndex = activeIndex === index ? -1 : index
+
+    this.setState({ activeIndex: newIndex })
+  }
 
   getProjects() {
     auth.getProjects().then(response => {
@@ -20,18 +36,70 @@ class Projects extends React.Component {
   }
 
   render() {
+
+    const { activeIndex } = this.state
+
     return (
       <div>
         <h1>Projects Index Page</h1>
         <div>
+          <Accordion>
           {this.props.projects.map(p => {
             return (
               <div key={p._id} className="each-project">
-                <h2>{p.projectName}</h2>
-                <h3>{p.client}</h3>
+                <Accordion.Title active={activeIndex === p._id} index={p._id} onClick={this.handleClick}>
+                  
+                  <h2><Icon name='dropdown' />{p.projectName} - {p.client}</h2>
+                </Accordion.Title>
+                <Accordion.Content active={activeIndex === p._id}>
+                  <div className='each-project-1'>
+                    <h3>Lead: {p.clientLead}</h3>
+                    <h3>Type: {p.type}</h3>
+                    <h3>Industry: {p.industry}</h3>
+                    <h3>Film Date: {p.filmingDate}</h3>
+                    <h3>Edit Start: {p.editStart ? p.editStart : 'N/A'}</h3>
+                    <h3>Edit End: {p.editEnd ? p.editEnd : 'N/A'}</h3>
+                  </div>
+
+                  <div className='each-project-2'>
+                    <h3>Producers:</h3>
+                    <ul>
+                      {p.producers.map((prod, index) => { return( <li key={index}>{prod}</li> ) })}
+                    </ul>
+                    <h3>Editors</h3>
+                    <ul>
+                      {p.editors.length > 0 
+                        ? p.editors.map((e, index) => { return( <li key={index}>{e}</li> ) })
+                        : <li>No editors have been assigned yet</li>
+                      }
+                    </ul>
+                    <h3>VR2: {p.vr2 ? p.vr2 : 'N/A'}</h3>
+                    <h3>Fusion: {p.fusion ? p.fusion : 'N/A'}</h3>
+                    <h3>Equipment Issues:</h3>
+                    <p>{p.equipmentIssues ? p.equipmentIssues : 'No Equipment Issues'}</p>
+                    <h3>YouTube Edits:</h3>
+                    <ol>
+                      {p.youtubeEdits.map((yt, index) => {
+                        return(
+                          <span key={index}>
+                            <li><a href={yt.link} alt={yt.link} target='_blank' rel="noopener noreferrer">{yt.link}</a></li>
+                            <ul>
+                              {yt.notes.map((note, index2) => {
+                                return(<li key={index2}>{note.author}: {note.body}</li>)
+                              })}
+                            </ul>
+                          </span>
+                        )
+                      })}
+                    </ol>
+                    <h3>Drive Link: {p.driveFinal ? p.driveFinal : 'N/A'}</h3>
+                    <h3>Final Link: {p.urlFinal ? p.urlFinal : 'N/A'}</h3>
+                  </div>
+                </Accordion.Content>
               </div>
             )
           })}
+          </Accordion>
         </div>
       </div>
     )

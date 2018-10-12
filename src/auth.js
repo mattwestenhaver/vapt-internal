@@ -76,6 +76,17 @@ class AuthClient {
         }
       })
   }
+
+  newProject(projectData) {
+    return this.request({ method: "POST", url: "/projects", data: projectData})
+      .then(response => {
+        if(response.data.success) {
+          return true
+        } else {
+          return false
+        }
+      })
+  } 
   
 }
 
