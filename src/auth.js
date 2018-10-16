@@ -87,6 +87,17 @@ class AuthClient {
         }
       })
   } 
+
+  updateProject(projectData) {
+    return this.request({ method: "PUT", url: `/projects/${projectData.id}`, data: projectData})
+      .then(response => {
+        if(response.data.success) {
+          return true
+        } else {
+          return false
+        }
+      })
+  }
   
 }
 

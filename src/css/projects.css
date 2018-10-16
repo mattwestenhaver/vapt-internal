@@ -11,6 +11,7 @@
 
 .ui.accordion .title h2 {
   text-align: left;
+  font-size: 1.3em;
 }
 
 .each-project {
@@ -56,4 +57,20 @@
 
 .new-project-container .form-wrap {
   width: 65%;
+}
+
+/* UPDATE PROJECT */
+
+.update-form-wrap {
+  width: 90%;
+  margin: 0 auto;
+}
+
+.update-form-wrap div.field {
+  width: 100%;
+}
+
+.update-button-wrap {
+  width: 25%;
+  margin: 40px auto;
 }

@@ -2,14 +2,18 @@ import React from 'react'
 import auth from '../../auth.js'
 import { connect } from 'react-redux'
 import { getProjects } from '../../redux/actions/projectActions.jsx'
-import { Accordion, Icon } from 'semantic-ui-react'
+import { Accordion, Icon, Modal, Button } from 'semantic-ui-react'
+
+import EditProject from './EditProject.jsx'
 
 class Projects extends React.Component {
 
   constructor(props) {
     super(props)
     this.state = { 
-      activeIndex: 0 
+      activeIndex: 0,
+      editing: false,
+      currentListing: null
     }
   }
 
@@ -29,6 +33,15 @@ class Projects extends React.Component {
         console.log('error retrieving projects')
       }
     })
+  }
+
+  toggleEdit = (e) => {
+    this.setState ({ editing: true, currentListing: e })
+  }
+
+  closeEdit = (e) => {
+    this.setState({ editing: false })
+    this.getProjects()
   }
 
   componentDidMount() {
@@ -95,12 +108,21 @@ class Projects extends React.Component {
                     <h3>Drive Link: {p.driveFinal ? p.driveFinal : 'N/A'}</h3>
                     <h3>Final Link: {p.urlFinal ? p.urlFinal : 'N/A'}</h3>
                   </div>
+                  <Button onClick={this.toggleEdit.bind(this, p)}>Edit Project</Button>
                 </Accordion.Content>
               </div>
             )
           })}
           </Accordion>
         </div>
+
+        <Modal className='customModal' open={this.state.editing} onClose={this.closeEdit}>
+          <Modal.Header>Update Project</Modal.Header>
+          <Modal.Content scrolling>
+            <EditProject currentListing={this.state.currentListing} onClose={this.closeEdit} />
+          </Modal.Content>
+        </Modal>
+
       </div>
     )
   }
