@@ -52,6 +52,7 @@ class EditProject extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
+      addYT: false,
       client: props.currentListing.client,
       clientLead: props.currentListing.clientLead,
       type: props.currentListing.type,
@@ -82,6 +83,33 @@ class EditProject extends React.Component {
       editStart: this.refs.editStart.value
     }
     auth.updateProject(newData).then(response => {
+      if(response) {
+        this.props.onClose()
+        console.log('update successful')
+      } else {
+        console.log('update unsuccessful')
+      }
+    })
+  }
+
+  addYoutube(e) {
+    e.preventDefault()
+    console.log('add yt version')
+    this.setState({ addYT: true })
+  }
+
+  saveLink(e) {
+    e.preventDefault()
+    const projectData = {
+      id: this.props.currentListing._id,
+      youtubeEdits: [
+        ...this.state.youtubeEdits,
+        {
+          link: this.refs.newYoutubeVersion.value
+        }
+      ]
+    }
+    auth.updateProject(projectData).then(response => {
       if(response) {
         this.props.onClose()
         console.log('update successful')
@@ -154,6 +182,20 @@ class EditProject extends React.Component {
                   )
               })}
             </ol>
+            {this.state.addYT
+              ? <div>
+                  <Form.Field>
+                    <label>New Version URL</label>
+                    <input ref='newYoutubeVersion' placeholder="YouTube URL" />
+                  </Form.Field>
+                  <Form.Field>
+                    <Button size='tiny' onClick={this.saveLink.bind(this)}>Save Link</Button>
+                  </Form.Field>
+                </div>
+              : <Button size='tiny' onClick={this.addYoutube.bind(this)}>Add Version</Button>
+            }
+            
+            <hr />
             <div className='update-button-wrap'>
               <Button fluid>Update Project</Button>
             </div>

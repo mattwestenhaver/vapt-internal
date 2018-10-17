@@ -2,7 +2,7 @@ import React from 'react'
 import auth from '../../auth.js'
 import { connect } from 'react-redux'
 import { getProjects } from '../../redux/actions/projectActions.jsx'
-import { Accordion, Icon, Modal, Button } from 'semantic-ui-react'
+import { Accordion, Icon, Modal, Button, Form } from 'semantic-ui-react'
 
 import EditProject from './EditProject.jsx'
 
@@ -13,7 +13,8 @@ class Projects extends React.Component {
     this.state = { 
       activeIndex: 0,
       editing: false,
-      currentListing: null
+      currentListing: null,
+      addComment: false
     }
   }
 
@@ -44,6 +45,14 @@ class Projects extends React.Component {
     this.getProjects()
   }
 
+  addComment(e) {
+    this.setState({ addComment: true })
+  }
+
+  postComment(e) {
+    console.log(this.refs.ytComment.value)
+  }
+
   componentDidMount() {
     this.getProjects()
   }
@@ -61,7 +70,6 @@ class Projects extends React.Component {
             return (
               <div key={p._id} className="each-project">
                 <Accordion.Title active={activeIndex === p._id} index={p._id} onClick={this.handleClick}>
-                  
                   <h2><Icon name='dropdown' />{p.projectName} - {p.client}</h2>
                 </Accordion.Title>
                 <Accordion.Content active={activeIndex === p._id}>
@@ -100,11 +108,13 @@ class Projects extends React.Component {
                               {yt.notes.map((note, index2) => {
                                 return(<li key={index2}>{note.author}: {note.body}</li>)
                               })}
+                              <li>Add Comment</li>
                             </ul>
                           </span>
                         )
                       })}
                     </ol>
+                    <Button size='mini' onClick={this.addComment.bind(this)}>Add Comment</Button>
                     <h3>Drive Link: {p.driveFinal ? p.driveFinal : 'N/A'}</h3>
                     <h3>Final Link: {p.urlFinal ? p.urlFinal : 'N/A'}</h3>
                   </div>
