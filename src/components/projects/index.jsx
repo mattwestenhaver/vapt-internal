@@ -2,9 +2,10 @@ import React from 'react'
 import auth from '../../auth.js'
 import { connect } from 'react-redux'
 import { getProjects } from '../../redux/actions/projectActions.jsx'
-import { Accordion, Icon, Modal, Button, Form } from 'semantic-ui-react'
+import { Accordion, Icon, Modal, Button } from 'semantic-ui-react'
 
 import EditProject from './EditProject.jsx'
+import VersionComment from './VersionComment.jsx';
 
 class Projects extends React.Component {
 
@@ -14,6 +15,7 @@ class Projects extends React.Component {
       activeIndex: 0,
       editing: false,
       currentListing: null,
+      ytVersion: null,
       addComment: false
     }
   }
@@ -45,12 +47,14 @@ class Projects extends React.Component {
     this.getProjects()
   }
 
-  addComment(e) {
-    this.setState({ addComment: true })
+  openComment = (e) => {
+    this.setState({ addComment: true, ytVersion: e })
+    console.log(e)
   }
 
-  postComment(e) {
-    console.log(this.refs.ytComment.value)
+  closeComment = (e) => {
+    this.setState({ addComment: false })
+    this.getProjects()
   }
 
   componentDidMount() {
@@ -103,18 +107,16 @@ class Projects extends React.Component {
                       {p.youtubeEdits.map((yt, index) => {
                         return(
                           <span key={index}>
-                            <li><a href={yt.link} alt={yt.link} target='_blank' rel="noopener noreferrer">{yt.link}</a></li>
+                            <li><Button size='tiny' className='comment-button' onClick={this.openComment.bind(this, yt)}>{yt.link}</Button></li>
                             <ul>
                               {yt.notes.map((note, index2) => {
                                 return(<li key={index2}>{note.author}: {note.body}</li>)
                               })}
-                              <li>Add Comment</li>
                             </ul>
                           </span>
                         )
                       })}
                     </ol>
-                    <Button size='mini' onClick={this.addComment.bind(this)}>Add Comment</Button>
                     <h3>Drive Link: {p.driveFinal ? p.driveFinal : 'N/A'}</h3>
                     <h3>Final Link: {p.urlFinal ? p.urlFinal : 'N/A'}</h3>
                   </div>
@@ -125,6 +127,13 @@ class Projects extends React.Component {
           })}
           </Accordion>
         </div>
+
+        <Modal className='customModal' open={this.state.addComment} onClose={this.closeComment}>
+          <Modal.Header>Post Comment</Modal.Header>
+          <Modal.Content scrolling>
+            <VersionComment version={this.state.ytVersion} onClose={this.closeComment} />
+          </Modal.Content>
+        </Modal>
 
         <Modal className='customModal' open={this.state.editing} onClose={this.closeEdit}>
           <Modal.Header>Update Project</Modal.Header>

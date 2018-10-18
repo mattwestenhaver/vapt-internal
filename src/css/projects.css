@@ -74,3 +74,30 @@
   width: 25%;
   margin: 40px auto;
 }
+
+/* ADD COMMENT TO YOUTUBE VERSION */
+
+.ui.tiny.button.comment-button {
+  background-color: white;
+  color: navy;
+  font-size: 1em;
+  text-align: left;
+  padding-left: 2px;
+}
+
+.comments-container {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.comments-container p {
+  font-size: 1.2em;
+}
+
+.ui.form .field {
+  width: 100%;
+}
+
+.comment-form .field label {
+  font-size: 1.2em!important;
+}
